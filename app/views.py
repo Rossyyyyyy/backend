@@ -7,14 +7,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserSerializer, PhishingRequestSerializer
 from .models import EmailAnalysis
-from .phishing_detector import perform_phishing_detection
 import logging
 import nltk
+
 
 # Download necessary packages (only needed once)
 nltk.download('punkt')  # For tokenization
 nltk.download('stopwords')  # If you're using stop words
 nltk.download('punkt_tab')
+
 logger = logging.getLogger(__name__)
 
 class RegisterView(generics.CreateAPIView):
@@ -28,6 +29,8 @@ class RegisterView(generics.CreateAPIView):
         user = serializer.save()
         return Response({"id": user.id, "username": user.username}, status=status.HTTP_201_CREATED)
 
+# In LoginView (Django)
+
 class LoginView(generics.GenericAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
@@ -35,20 +38,21 @@ class LoginView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
         password = request.data.get('password')
-        
-        # Authenticate user with email instead of username
+
         try:
-            user = User.objects.get(email=email)  
-            if user.check_password(password):  
+            user = User.objects.get(email=email)
+            if user.check_password(password):
                 refresh = RefreshToken.for_user(user)
                 return Response({
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
+                    'email': user.email  # Send the email instead of username
                 })
             else:
                 return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         except User.DoesNotExist:
             return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 class PhishingDetectionView(generics.GenericAPIView):
     permission_classes = [AllowAny]

@@ -17,6 +17,7 @@ function PhishingDetector() {
             sender: sender,
             subject: subject,
             content: content
+            
         };
 
         try {

@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000'; 
+const API_BASE_URL = 'http://localhost:8000'; // Ensure this is your backend's API base URL
 
+// Function for phishing detection
 export const detectPhishing = async (data) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/detect/`, data);
@@ -12,6 +13,7 @@ export const detectPhishing = async (data) => {
     }
 };
 
+// Function for user registration
 export const registerUser = async (data) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/register/`, data);
@@ -22,10 +24,17 @@ export const registerUser = async (data) => {
     }
 };
 
+// Function for user login
 export const loginUser = async (data) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/login/`, data);
-        return response; 
+        
+        // If your backend responds with a token, you can store it here
+        if (response.data.token) {
+            localStorage.setItem('authToken', response.data.token); // Store token in localStorage or sessionStorage
+        }
+
+        return response; // Return the response from the backend
     } catch (error) {
         console.error('Error during login:', error);
         throw error; 
