@@ -5,8 +5,13 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from .serializers import UserSerializer
 from .serializers import UserSerializer, PhishingRequestSerializer
 from .models import EmailAnalysis
+from .phishing_detector import perform_phishing_detection
+from rest_framework.decorators import api_view
 import logging
 import nltk
 
@@ -29,6 +34,27 @@ class RegisterView(generics.CreateAPIView):
         user = serializer.save()
         return Response({"id": user.id, "username": user.username}, status=status.HTTP_201_CREATED)
 
+
+@api_view(['GET'])
+def get_user_by_email(request, email):
+    try:
+        user = User.objects.get(email=email)
+        user_data = {
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'date_joined': user.date_joined,
+            'last_login': user.last_login,
+            'is_active': user.is_active
+        }
+        return Response(user_data, status=200)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=404)
+    
+    
+    
+    
 # In LoginView (Django)
 
 class LoginView(generics.GenericAPIView):
@@ -52,6 +78,18 @@ class LoginView(generics.GenericAPIView):
                 return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         except User.DoesNotExist:
             return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        user_data = {
+            "username": user.username,
+            "email": user.email,
+            "password": "****"  # Masked password
+        }
+        return Response(user_data)
 
 
 class PhishingDetectionView(generics.GenericAPIView):

@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 function AccountDash() {
     const navigate = useNavigate();
     const [email, setEmail] = useState(null);
+    const [safeContentCount, setSafeContentCount] = useState(0); // Store the safe content countS
     const storedEmail = localStorage.getItem('email');
 
     useEffect(() => {
@@ -41,10 +42,8 @@ function AccountDash() {
     }, [navigate, storedEmail]);
 
     const handleLogout = () => {
-        // Clear auth token and email from localStorage
         localStorage.removeItem('authToken');
         localStorage.removeItem('email');
-        // Redirect to login page
         navigate('/login');
     };
 
@@ -54,7 +53,7 @@ function AccountDash() {
             <nav style={{ backgroundColor: '#B03052', padding: '1em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h1 style={{ color: 'white', margin: 0 }}>Email Phishing Detector</h1>
                 <div>
-                    <Link to="/home" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>Home</Link>
+                    <Link to="/account-dash" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>Home</Link>
                     <Link to="/profile" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>Profile</Link>
                     <Link to="/history" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>History</Link>
                     {/* Dropdown for email */}
@@ -68,24 +67,26 @@ function AccountDash() {
                     </div>
                 </div>
             </nav>
-
             {/* Main Content */}
             <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '2em' }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-3">
-                            <div className="card-counter primary">
-                                <i className="fa fa-code-fork"></i>
-                                <span className="count-numbers">20</span>
-                                <span className="count-name">Detect Content</span>
-                            </div>
+                            <Link to="/detect" style={{ textDecoration: 'none' }}>
+                                <div className="card-counter primary" style={{ cursor: 'pointer' }}>
+                                    <i className="fa fa-code-fork"></i>
+                                    <span className="count-name">Detect Content</span>
+                                </div>
+                            </Link>
                         </div>
                         <div className="col-md-3">
-                            <div className="card-counter success">
-                                <i className="fa fa-ticket"></i>
-                                <span className="count-numbers">15</span>
-                                <span className="count-name">Safe Content</span>
-                            </div>
+                            <Link to="/safe" style={{ textDecoration: 'none' }}>
+                                <div className="card-counter success">
+                                    <i className="fa fa-ticket"></i>
+                                    <span className="count-numbers">{safeContentCount}</span> {/* Dynamic safe content count */}
+                                    <span className="count-name">Safe Content</span>
+                                </div>
+                            </Link>
                         </div>
                         <div className="col-md-3">
                             <div className="card-counter danger">

@@ -2,6 +2,21 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8000'; // Ensure this is your backend's API base URL
 
+
+export const fetchUserInfo = async (token) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/user-info`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+        return response;
+    } catch (error) {
+        console.error('Error fetching user info:', error);
+        throw error;
+    }
+};
 // Function for phishing detection
 export const detectPhishing = async (data) => {
     try {
