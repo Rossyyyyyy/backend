@@ -67,16 +67,25 @@ function PhishingDetector() {
         <div style={{ backgroundColor: '#D76C82', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             {/* Navbar */}
             <nav style={{ backgroundColor: '#B03052', padding: '1em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1 style={{ color: 'white', margin: 0 }}>Email Phishing Detector</h1>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <i className="fas fa-shield-alt" style={{ color: 'white', fontSize: '2em', marginRight: '10px' }}></i> {/* Icon in Navbar */}
+                    <h1 style={{ color: 'white', margin: 0 }}>Email Phishing Detector</h1>
+                </div>
                 <div>
-                    <Link to="/account-dash" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>Home</Link>
-                    <Link to="/profile" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>Profile</Link>
-                    <Link to="/history" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>History</Link>
+                    <Link to="/account-dash" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>
+                        <i className="fas fa-home" style={{ marginRight: '5px' }}></i>Home
+                    </Link>
+                    <Link to="/profile" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>
+                        <i className="fas fa-user" style={{ marginRight: '5px' }}></i>Profile
+                    </Link>
+                    <Link to="/history" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>
+                        <i className="fas fa-history" style={{ marginRight: '5px' }}></i>History
+                    </Link>
 
                     {/* Dropdown for email */}
                     <div className="dropdown" style={{ display: 'inline-block' }}>
                         <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            {email ? email : 'Email'}
+                            <i className="fas fa-user-circle" style={{ marginRight: '5px' }}></i>{email ? email : 'Email'}
                         </button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li><button className="dropdown-item" onClick={() => { localStorage.removeItem('authToken'); localStorage.removeItem('email'); window.location.href = '/login'; }}>Logout</button></li>

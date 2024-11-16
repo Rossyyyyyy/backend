@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../api/axiosConfig';
+import {  FaSignInAlt, FaUser, FaInfoCircle, FaPhoneAlt } from 'react-icons/fa'; // Social media and navbar icons
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -31,10 +32,25 @@ function Register() {
         <div style={{ backgroundColor: '#D76C82', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             {/* Navbar */}
             <nav style={{ backgroundColor: '#B03052', padding: '1em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1 style={{ color: 'white', margin: 0 }}>Email Phishing Detector</h1>
+                <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+                    <h1 style={{ margin: 0 }}>
+                        <i className="fas fa-shield-alt" style={{ marginRight: '10px' }}></i>
+                        Email Phishing Detector
+                    </h1>
+                </Link>
                 <div>
-                    <Link to="/login" style={{ color: 'white', textDecoration: 'none', marginRight: '1em' }}>Login</Link>
-                    <Link to="/register" style={{ color: 'white', textDecoration: 'none' }}>Register</Link>
+                    <Link to="/login" style={{ color: 'white', textDecoration: 'none', marginRight: '1em' }}>
+                        <FaSignInAlt style={{ marginRight: '5px' }} /> Login
+                    </Link>
+                    <Link to="/register" style={{ color: 'white', textDecoration: 'none', marginRight: '1em' }}>
+                        <FaUser style={{ marginRight: '5px' }} /> Register
+                    </Link>
+                    <Link to="/about" style={{ color: 'white', textDecoration: 'none', marginRight: '1em' }}>
+                        <FaInfoCircle style={{ marginRight: '5px' }} /> About
+                    </Link>
+                    <Link to="/contact" style={{ color: 'white', textDecoration: 'none' }}>
+                        <FaPhoneAlt style={{ marginRight: '5px' }} /> Contact
+                    </Link>
                 </div>
             </nav>
 

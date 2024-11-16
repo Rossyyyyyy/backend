@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 function AccountDash() {
     const navigate = useNavigate();
     const [email, setEmail] = useState(null);
-    const [safeContentCount, setSafeContentCount] = useState(0); // Store the safe content countS
+    const [safeContentCount, setSafeContentCount] = useState(0);
+    const [notSafeContentCount, setNotSafeContentCount] = useState(0);
     const storedEmail = localStorage.getItem('email');
 
     useEffect(() => {
@@ -39,6 +40,54 @@ function AccountDash() {
                 fetchEmail();
             }
         }
+
+        // Fetch counts from the backend
+        const fetchSafeContentCount = async () => {
+            try {
+                const response = await fetch('http://localhost:5001/api/get-safe-content-count', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    setSafeContentCount(data.count);
+                    localStorage.setItem('safeContentCount', data.count); // Store it in localStorage
+                } else {
+                    console.error('Failed to fetch safe content count:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching safe content count:', error);
+            }
+        };
+
+        const fetchNotSafeContentCount = async () => {
+            try {
+                const response = await fetch('http://localhost:5001/api/get-not-safe-content-count', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    setNotSafeContentCount(data.count);
+                    localStorage.setItem('notSafeContentCount', data.count); // Store it in localStorage
+                } else {
+                    console.error('Failed to fetch not safe content count:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching not safe content count:', error);
+            }
+        };
+
+        fetchSafeContentCount();
+        fetchNotSafeContentCount();
     }, [navigate, storedEmail]);
 
     const handleLogout = () => {
@@ -51,15 +100,24 @@ function AccountDash() {
         <div style={{ backgroundColor: '#D76C82', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             {/* Navbar */}
             <nav style={{ backgroundColor: '#B03052', padding: '1em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1 style={{ color: 'white', margin: 0 }}>Email Phishing Detector</h1>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <i className="fas fa-shield-alt" style={{ color: 'white', fontSize: '2em', marginRight: '10px' }}></i> {/* Icon in Navbar */}
+                    <h1 style={{ color: 'white', margin: 0 }}>Email Phishing Detector</h1>
+                </div>
                 <div>
-                    <Link to="/account-dash" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>Home</Link>
-                    <Link to="/profile" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>Profile</Link>
-                    <Link to="/history" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>History</Link>
+                    <Link to="/account-dash" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>
+                        <i className="fas fa-home" style={{ marginRight: '5px' }}></i>Home
+                    </Link>
+                    <Link to="/profile" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>
+                        <i className="fas fa-user" style={{ marginRight: '5px' }}></i>Profile
+                    </Link>
+                    <Link to="/history" style={{ color: 'white', textDecoration: 'none', marginRight: '1em', padding: '0.75em', backgroundColor: '#B03052', borderRadius: '4px' }}>
+                        <i className="fas fa-history" style={{ marginRight: '5px' }}></i>History
+                    </Link>
                     {/* Dropdown for email */}
                     <div className="dropdown" style={{ display: 'inline-block' }}>
                         <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            {email ? email : 'Loading...'}
+                            <i className="fas fa-user-circle" style={{ marginRight: '5px' }}></i>{email ? email : 'Loading...'}
                         </button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
@@ -67,10 +125,11 @@ function AccountDash() {
                     </div>
                 </div>
             </nav>
+
             {/* Main Content */}
             <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '2em' }}>
                 <div className="container">
-                    <div className="row">
+                    <div className="row justify-content-center"> {/* Centering the cards */}
                         <div className="col-md-3">
                             <Link to="/detect" style={{ textDecoration: 'none' }}>
                                 <div className="card-counter primary" style={{ cursor: 'pointer' }}>
@@ -82,25 +141,18 @@ function AccountDash() {
                         <div className="col-md-3">
                             <Link to="/safe" style={{ textDecoration: 'none' }}>
                                 <div className="card-counter success">
-                                    <i className="fa fa-ticket"></i>
-                                    <span className="count-numbers">{safeContentCount}</span> {/* Dynamic safe content count */}
+                                    <i className="fa fa-check"></i> {/* Icon only, no count */}
                                     <span className="count-name">Safe Content</span>
                                 </div>
                             </Link>
                         </div>
                         <div className="col-md-3">
-                            <div className="card-counter danger">
-                                <i className="fa fa-database"></i>
-                                <span className="count-numbers">10</span>
-                                <span className="count-name">Not Safe Content</span>
-                            </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="card-counter info">
-                                <i className="fa fa-users"></i>
-                                <span className="count-numbers">5</span>
-                                <span className="count-name">Deleted Content</span>
-                            </div>
+                            <Link to="/not-safe" style={{ textDecoration: 'none' }}>
+                                <div className="card-counter danger">
+                                    <i className="fa fa-exclamation-triangle"></i> {/* Warning icon */}
+                                    <span className="count-name">Not Safe Content</span>
+                                </div>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -140,19 +192,9 @@ function AccountDash() {
                     background-color: #ef5350;
                     color: #FFF;
                 }
-                .card-counter.info {
-                    background-color: #26c6da;
-                    color: #FFF;
-                }
                 .card-counter i {
                     font-size: 5em;
                     opacity: 0.2;
-                }
-                .card-counter .count-numbers {
-                    position: absolute;
-                    right: 35px;
-                    top: 20px;
-                    font-size: 32px;
                 }
                 .card-counter .count-name {
                     position: absolute;
