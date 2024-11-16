@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {  FaSignInAlt, FaUser, FaInfoCircle, FaPhoneAlt } from 'react-icons/fa'; // Social media and navbar icons
+import { FaSignInAlt, FaUser, FaInfoCircle, FaPhoneAlt } from 'react-icons/fa'; // Social media and navbar icons
 
 function Dashboard() {
     return (
@@ -30,13 +30,14 @@ function Dashboard() {
                     </Link>
                 </div>
             </nav>
+
             {/* Carousel */}
-            <Carousel style={{ marginBottom: '2em' }}>
+            <Carousel>
                 <Carousel.Item>
                     <img
                         className="d-block w-100"
-                        src="/pic1.jpg" // Updated path
-                        alt="First slide"
+                        src="/pic1.jpg"
+                        alt="Stay Safe, Stay Secure: Our system ensures your privacy by protecting your session data."
                         style={{ height: '400px', objectFit: 'cover' }}
                     />
                     <Carousel.Caption>
@@ -44,11 +45,12 @@ function Dashboard() {
                         <p>Our system ensures your privacy by protecting your session data.</p>
                     </Carousel.Caption>
                 </Carousel.Item>
+
                 <Carousel.Item>
                     <img
                         className="d-block w-100"
-                        src="/pic2.jpg" // Updated path
-                        alt="Second slide"
+                        src="/pic2.jpg"
+                        alt="Your Data is Our Priority: Experience secure browsing with automatic session data removal."
                         style={{ height: '400px', objectFit: 'cover' }}
                     />
                     <Carousel.Caption>
@@ -56,11 +58,12 @@ function Dashboard() {
                         <p>Experience secure browsing with automatic session data removal.</p>
                     </Carousel.Caption>
                 </Carousel.Item>
+
                 <Carousel.Item>
                     <img
                         className="d-block w-100"
-                        src="/pic4.jpg" // Updated path
-                        alt="Third slide"
+                        src="/pic4.jpg"
+                        alt="Trust Our System: We ensure that no one can access your personal information once you log out."
                         style={{ height: '400px', objectFit: 'cover' }}
                     />
                     <Carousel.Caption>
@@ -68,11 +71,12 @@ function Dashboard() {
                         <p>We ensure that no one can access your personal information once you log out.</p>
                     </Carousel.Caption>
                 </Carousel.Item>
+
                 <Carousel.Item>
                     <img
                         className="d-block w-100"
-                        src="/pic6.jpg" // Updated path
-                        alt="Fourth slide"
+                        src="/pic6.jpg"
+                        alt="Your Privacy, Our Promise: Logout and relax, knowing your browsing history is cleared for safety."
                         style={{ height: '400px', objectFit: 'cover' }}
                     />
                     <Carousel.Caption>
@@ -89,12 +93,11 @@ function Dashboard() {
                     We understand that seeing your previous history is important, but for your security and privacy, we have implemented certain measures to protect your data. Here’s why your history might not be available right away when you log back in:
                 </p>
 
-                {/* Video in place of an image */}
+                {/* Video Section */}
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2em' }}>
                     <video
                         width="100%"  // Adjust width to 100% of its container
                         style={{
-                            width: '100%',
                             maxWidth: '560px', // Limit the max width to 560px (16:9 aspect ratio for 100% width)
                             height: 'auto',  // Auto-adjust height based on width for 16:9 ratio
                             borderRadius: '8px',
@@ -120,27 +123,37 @@ function Dashboard() {
                 <p>Once you log back in, you will need to manually retrieve your history, as the session data has been cleared. If you’ve logged out previously, the system does not remember your last session for security reasons. This means that even though you’ve logged back in, your history will not be automatically restored until the data is fetched again, based on the latest session.</p>
 
                 {/* Collage Section */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '15px' }}>
-                    <img
-                        src="/sec1.jpg" // Replace with your image path
-                        alt="Image 1"
-                        style={{ width: '100%', maxWidth: '250px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
-                    />
-                    <img
-                        src="/sec2.jpg" // Replace with your image path
-                        alt="Image 2"
-                        style={{ width: '100%', maxWidth: '250px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
-                    />
-                    <img
-                        src="/sec3.jpg" // Replace with your image path
-                        alt="Image 3"
-                        style={{ width: '100%', maxWidth: '250px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
-                    />
-                    <img
-                        src="/sec4.jpg" // Replace with your image path
-                        alt="Image 4"
-                        style={{ width: '100%', maxWidth: '250px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
-                    />
+                <div className="collage">
+                    <div className="row">
+                        <div className="col">
+                            <img
+                                src="/sec1.jpg"
+                                alt="A secure session history section"
+                                style={{ width: '100%', maxWidth: '250px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
+                            />
+                        </div>
+                        <div className="col">
+                            <img
+                                src="/sec2.jpg"
+                                alt="Privacy and session data protection"
+                                style={{ width: '100%', maxWidth: '250px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
+                            />
+                        </div>
+                        <div className="col">
+                            <img
+                                src="/sec3.jpg"
+                                alt="An illustration of secure login"
+                                style={{ width: '100%', maxWidth: '250px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
+                            />
+                        </div>
+                        <div className="col">
+                            <img
+                                src="/sec4.jpg"
+                                alt="A representation of automatic session data deletion"
+                                style={{ width: '100%', maxWidth: '250px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <h3>Why This is Important for You</h3>
@@ -150,8 +163,8 @@ function Dashboard() {
             </div>
 
             {/* Footer */}
-            <footer style={{ backgroundColor: '#B03052', padding: '1em', textAlign: 'center', color: 'white' }}>
-                Your safety, Our priority
+            <footer style={{ backgroundColor: '#B03052', color: 'white', textAlign: 'center', padding: '1em' }}>
+                <p>© 2024 Email Phishing Detection System | All Rights Reserved</p>
             </footer>
         </div>
     );
