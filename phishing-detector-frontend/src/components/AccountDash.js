@@ -4,8 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 function AccountDash() {
     const navigate = useNavigate();
     const [email, setEmail] = useState(null);
-    const [safeContentCount, setSafeContentCount] = useState(0);
-    const [notSafeContentCount, setNotSafeContentCount] = useState(0);
     const storedEmail = localStorage.getItem('email');
 
     useEffect(() => {
@@ -40,54 +38,6 @@ function AccountDash() {
                 fetchEmail();
             }
         }
-
-        // Fetch counts from the backend
-        const fetchSafeContentCount = async () => {
-            try {
-                const response = await fetch('http://localhost:5001/api/get-safe-content-count', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                const data = await response.json();
-                if (response.ok) {
-                    setSafeContentCount(data.count);
-                    localStorage.setItem('safeContentCount', data.count); // Store it in localStorage
-                } else {
-                    console.error('Failed to fetch safe content count:', data);
-                }
-            } catch (error) {
-                console.error('Error fetching safe content count:', error);
-            }
-        };
-
-        const fetchNotSafeContentCount = async () => {
-            try {
-                const response = await fetch('http://localhost:5001/api/get-not-safe-content-count', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                const data = await response.json();
-                if (response.ok) {
-                    setNotSafeContentCount(data.count);
-                    localStorage.setItem('notSafeContentCount', data.count); // Store it in localStorage
-                } else {
-                    console.error('Failed to fetch not safe content count:', data);
-                }
-            } catch (error) {
-                console.error('Error fetching not safe content count:', error);
-            }
-        };
-
-        fetchSafeContentCount();
-        fetchNotSafeContentCount();
     }, [navigate, storedEmail]);
 
     const handleLogout = () => {
